@@ -2,7 +2,7 @@
 library(data.table)
 
 .args <- if (interactive()) c(
-  "NC_raw.csv",
+  "NC_raw.csv", # from https://www.nconemap.gov/documents/3e7321d33a0c4aee9d0bf6a22e9bd79f/explore
   "NC.rds"
 ) else commandArgs(trailingOnly = TRUE)
 

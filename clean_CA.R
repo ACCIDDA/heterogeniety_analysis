@@ -2,7 +2,7 @@
 library(data.table)
 
 .args <- if (interactive()) c(
-  "CA_raw.csv",
+  "CA_raw.csv", # from https://dof.ca.gov/Forecasting/Demographics/Projections/ => https://dof.ca.gov/wp-content/uploads/sites/352/2023/08/P3_California-and-Counties.xlsx
   "CA.rds"
 ) else commandArgs(trailingOnly = TRUE)
 

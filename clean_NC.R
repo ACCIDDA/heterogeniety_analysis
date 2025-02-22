@@ -6,8 +6,19 @@ library(data.table)
   "NC.rds"
 ) else commandArgs(trailingOnly = TRUE)
 
-raw_dt <- fread(.args[1])
+raw_dt <- fread(.args[1])[Year == 2023][, 2:22]
 
-res_dt <- raw_dt[Year == 2023]
+melt_dt <- raw_dt |> melt(id.vars = c("Race", "Sex"), variable.name = "age")
 
-saveRDS(res_dt, tail(.args, 1))
+res_dt <- melt_dt[, race := fcase(
+  Race == "White", "WHITE",
+  Race == "Asian", "ASIAN",
+  Race == "Black", "BLACK",
+  default = "OTHER"
+)][, .(population = sum(value)), by = .(race, age)]
+
+res_dt[,
+  c("age_start", "age_end") := tstrsplit(gsub("Age ", "", age), " to ") |> lapply(as.integer)
+]
+
+saveRDS(res_dt[, .(race, age_start, age_end, population)], tail(.args, 1))
